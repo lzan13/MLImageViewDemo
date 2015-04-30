@@ -28,6 +28,8 @@ public class MLImageView extends ImageView {
     private int mPressColor;
     private int mRadius;
     private int mShapeType;
+    private int mBorderWidth;
+    private int mBorderColor;
 
     public MLImageView(Context context) {
         super(context);
@@ -51,6 +53,8 @@ public class MLImageView extends ImageView {
         mPressColor = getResources().getColor(R.color.ml_gray);
         mRadius = 16;
         mShapeType = 1;
+        mBorderWidth = 0;
+        mBorderColor = getResources().getColor(R.color.ml_red);
 
         // 获取控件的属性值
         if (attrs != null) {
@@ -59,6 +63,8 @@ public class MLImageView extends ImageView {
             mPressAlpha = array.getInteger(R.styleable.MLImageView_press_alpha, mPressAlpha);
             mRadius = array.getDimensionPixelSize(R.styleable.MLImageView_radius, mRadius);
             mShapeType = array.getInteger(R.styleable.MLImageView_shape_type, mShapeType);
+            mBorderWidth = array.getDimensionPixelOffset(R.styleable.MLImageView_border_width, mBorderWidth);
+            mBorderColor = array.getColor(R.styleable.MLImageView_border_color, mBorderColor);
             array.recycle();
         }
 
@@ -109,11 +115,11 @@ public class MLImageView extends ImageView {
                 | Canvas.HAS_ALPHA_LAYER_SAVE_FLAG
                 | Canvas.FULL_COLOR_LAYER_SAVE_FLAG
                 | Canvas.CLIP_TO_LAYER_SAVE_FLAG;
-        canvas.saveLayer(0, 0, getWidth(), getHeight(), null, saveFlags);
+        canvas.saveLayer(0, 0, mWidth, mHeight, null, saveFlags);
 
         if (mShapeType == 0) {
             // 画遮罩，画出来就是一个和空间大小相匹配的圆
-            canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 2, paint);
+            canvas.drawCircle(mWidth / 2, mHeight / 2, mWidth / 2, paint);
         } else {
             // 当ShapeType = 1 时 图片为圆角矩形
             RectF rectf = new RectF(0, 0, getWidth(), getHeight());
@@ -144,6 +150,19 @@ public class MLImageView extends ImageView {
         }else if (mShapeType == 1) {
             RectF rectF = new RectF(0, 0, mWidth, mHeight);
             canvas.drawRoundRect(rectF, mRadius, mRadius, mPressPaint);
+        }
+        if(mBorderWidth > 0){
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setColor(mBorderColor);
+            paint.setAntiAlias(true);
+            if (mShapeType == 0) {
+                canvas.drawCircle(mWidth / 2, mHeight / 2, mWidth / 2, paint);
+            } else {
+                // 当ShapeType = 1 时 图片为圆角矩形
+                RectF rectf = new RectF(0, 0, getWidth(), getHeight());
+                canvas.drawRoundRect(rectf, mRadius, mRadius, paint);
+            }
         }
     }
 

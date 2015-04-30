@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ml_gray">#ff9e9e9e</color>
+    <color name="ml_blue">#ff239efe</color>
+    <color name="ml_red">#ffff0000</color>
 </resources>

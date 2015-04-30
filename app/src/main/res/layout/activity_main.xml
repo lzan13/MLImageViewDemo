@@ -44,5 +44,7 @@
         melove:press_alpha="50"
         melove:press_color="#00ff00"
         melove:radius="8dp"
-        melove:shape_type="rectangle" />
+        melove:shape_type="rectangle"
+        melove:border_width="1dp"
+        melove:border_color="@color/ml_red"/>
 </LinearLayout>
