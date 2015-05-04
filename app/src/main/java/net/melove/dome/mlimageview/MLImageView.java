@@ -97,6 +97,7 @@ public class MLImageView extends ImageView {
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
         drawDrawable(canvas, bitmap);
         drawPress(canvas);
+        drawBorder(canvas);
 
     }
 
@@ -151,8 +152,11 @@ public class MLImageView extends ImageView {
             RectF rectF = new RectF(0, 0, mWidth, mHeight);
             canvas.drawRoundRect(rectF, mRadius, mRadius, mPressPaint);
         }
+    }
+    private void drawBorder(Canvas canvas){
         if(mBorderWidth > 0){
             Paint paint = new Paint();
+            paint.setStrokeWidth(mBorderWidth);
             paint.setStyle(Paint.Style.STROKE);
             paint.setColor(mBorderColor);
             paint.setAntiAlias(true);
